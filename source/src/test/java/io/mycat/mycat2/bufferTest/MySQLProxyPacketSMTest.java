@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import static io.mycat.mysql.ComQueryState.*;
+import static io.mycat.mysql.ComQueryState.COLUMN_DEFINITION;
 import static io.mycat.mysql.MySQLPayloadType.*;
 
 
@@ -130,7 +131,7 @@ public class MySQLProxyPacketSMTest {
         rs.resolvePayloadType(inf, true);
         Assert.assertEquals(EOF, rs.mysqlPacketType);
         Assert.assertEquals(ServerStatus.AUTO_COMMIT, rs.serverStatus);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
 
     @Test
@@ -143,7 +144,7 @@ public class MySQLProxyPacketSMTest {
         rs.resolvePayloadType(inf, true);
         Assert.assertEquals(OK, rs.mysqlPacketType);
         Assert.assertEquals(ServerStatus.AUTO_COMMIT, rs.serverStatus);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
 
     @Test
@@ -220,7 +221,7 @@ public class MySQLProxyPacketSMTest {
         inf.head = 0xFE;
         rs.resolvePayloadType(inf, true);
         Assert.assertEquals(EOF, rs.mysqlPacketType);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
     @Test
     public void testPrepareOKRespField2Param1WithEof() {
@@ -246,7 +247,7 @@ public class MySQLProxyPacketSMTest {
         inf.head = 0xFE;
         rs.resolvePayloadType(inf, true);
         Assert.assertEquals(EOF, rs.mysqlPacketType);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
     @Test
     public void testPrepareOKRespField1Param2WithoutEof() {
@@ -268,7 +269,7 @@ public class MySQLProxyPacketSMTest {
         Assert.assertEquals(MySQLPayloadType.COLUMN_DEFINITION, rs.mysqlPacketType);
         rs.resolvePayloadType(inf, true);
         Assert.assertEquals(MySQLPayloadType.COLUMN_DEFINITION, rs.mysqlPacketType);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
     @Test
     public void testPrepareOKRespField0Param2WithoutEof() {
@@ -286,7 +287,7 @@ public class MySQLProxyPacketSMTest {
         Assert.assertEquals(MySQLPayloadType.COLUMN_DEFINITION, rs.mysqlPacketType);
         rs.resolvePayloadType(inf, true);
         Assert.assertEquals(MySQLPayloadType.COLUMN_DEFINITION, rs.mysqlPacketType);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
     @Test
     public void testPrepareOKRespField2Param1WithoutEof() {
@@ -308,7 +309,7 @@ public class MySQLProxyPacketSMTest {
         Assert.assertEquals(0, rs.prepareFieldNum);
         Assert.assertEquals(0, rs.prepareParamNum);
         Assert.assertEquals(MySQLPayloadType.COLUMN_DEFINITION, rs.mysqlPacketType);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
     @Test
     public void testPrepareOKRespField2Param0WithoutEof() {
@@ -328,6 +329,6 @@ public class MySQLProxyPacketSMTest {
         Assert.assertEquals(MySQLPayloadType.COLUMN_DEFINITION, rs.mysqlPacketType);
         Assert.assertEquals(0, rs.prepareFieldNum);
         Assert.assertEquals(0, rs.prepareParamNum);
-        Assert.assertEquals(RESP_END, rs.state);
+        Assert.assertEquals(COMMAND_END, rs.state);
     }
 }
